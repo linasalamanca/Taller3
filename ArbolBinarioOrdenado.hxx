@@ -73,45 +73,54 @@ int ArbolBinarioOrdenado<T>::tamano(NodoBinario<T>* nodo) {
 }
 
 //iterativa
-template< class T >
-bool ArbolBinarioOrdenado<T>::insertar(T val){
-    NodoBinario<T>* nodo = this->raiz;
-    NodoBinario<T>* padre = this->raiz;
-    bool insertado = false;
+template<class T>
+bool arbolBinario<T>::insertar(T val){
+
+    NodoBinario<T> *nodo = this->raiz;
+    NodoBinario<T> *padre = this->raiz;
     bool duplicado = false;
+    bool insertado = false;
 
-    while (nodo!=nullptr){
-        padre = nodo;
-        if(val < nodo->obtenerDato()){
-            nodo = nodo->obtenerHijoIzq();
-        } else if(val > nodo->obtenerDato()){
-            nodo = nodo->obtenerHijoDer();
-        }else{
-            duplicado = true;
-            break;
-        }
-    }
-
-    if(!duplicado){
-        NodoBinario<T>* nuevo = new NodoBinario<T>(val);
-        if(nuevo!=nullptr){
-            if(val < padre->obtenerDato())
-                padre->fijarHijoIzq(nuevo);
-            else
-                padre->fijarHijoDer(nuevo);
-        }
+    if(this->raiz == NULL){
+        this->raiz = new NodoBinario<T>(val);
         insertado = true;
+        return insertado;
+    }else{
+        while (nodo != NULL) {
+            padre = nodo;
+            if (val < nodo->getDato()){
+                nodo = nodo->getHijoIzq();
+            }else if(val > nodo->getDato()){
+                nodo = nodo->getHijoDer();
+            }else{
+                duplicado = true;
+                break;
+            }
+        }
+
+        if(!duplicado){
+            NodoBinario<T>* nuevo = new NodoBinario<T>(val);
+            if(nuevo != NULL){
+                if(val < padre->getDato()){
+                    padre->setHijoIzq(nuevo);
+                }else{
+                    padre->setHijoDer(nuevo);
+                }
+                insertado = true;
+            }
+        }
+        return insertado;
     }
-    return insertado;
 }
+
 //iterativa
 /*template< class T >
 ArbolBinarioOrdenado<T>::eliminar(T val){
     //comparar con dato en nodo para bajar por izquierda o derecha
-    //y para saber si val está en el árbol
+    //y para saber si val estï¿½ en el ï¿½rbol
 
-    //Si val está en el árbol y ya baje
-    //verificar situación de eliminación
+    //Si val estï¿½ en el ï¿½rbol y ya baje
+    //verificar situaciï¿½n de eliminaciï¿½n
     //1. Nodo hoja, borrarlo
     //2. Nodo con un solo hijo, usar hijo para reemplazar nodo
     //3. Nodo con dos hijos, usar elmaximo del subarbol izquierdo
