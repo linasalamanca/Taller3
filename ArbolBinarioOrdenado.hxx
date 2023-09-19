@@ -81,17 +81,17 @@ bool arbolBinario<T>::insertar(T val){
     bool duplicado = false;
     bool insertado = false;
 
-    if(this->raiz == NULL){
+    if(this->raiz == nullptr){
         this->raiz = new NodoBinario<T>(val);
         insertado = true;
         return insertado;
     }else{
         while (nodo != NULL) {
             padre = nodo;
-            if (val < nodo->getDato()){
-                nodo = nodo->getHijoIzq();
-            }else if(val > nodo->getDato()){
-                nodo = nodo->getHijoDer();
+            if (val < nodo->obtenerDato()){
+                nodo = nodo->obtenerHijoIzq();
+            }else if(val > nodo->obtenerDato()){
+                nodo = nodo->obtenerHijoDer();
             }else{
                 duplicado = true;
                 break;
@@ -101,10 +101,10 @@ bool arbolBinario<T>::insertar(T val){
         if(!duplicado){
             NodoBinario<T>* nuevo = new NodoBinario<T>(val);
             if(nuevo != NULL){
-                if(val < padre->getDato()){
-                    padre->setHijoIzq(nuevo);
+                if(val < padre->obtenerDato()){
+                    padre->fijarHijoIzq(nuevo);
                 }else{
-                    padre->setHijoDer(nuevo);
+                    padre->fijarHijoDer(nuevo);
                 }
                 insertado = true;
             }
@@ -112,20 +112,6 @@ bool arbolBinario<T>::insertar(T val){
         return insertado;
     }
 }
-
-//iterativa
-/*template< class T >
-ArbolBinarioOrdenado<T>::eliminar(T val){
-    //comparar con dato en nodo para bajar por izquierda o derecha
-    //y para saber si val est� en el �rbol
-
-    //Si val est� en el �rbol y ya baje
-    //verificar situaci�n de eliminaci�n
-    //1. Nodo hoja, borrarlo
-    //2. Nodo con un solo hijo, usar hijo para reemplazar nodo
-    //3. Nodo con dos hijos, usar elmaximo del subarbol izquierdo
-    //   para reemplazazr nodo
-}*/
 
 template<class T>
 bool arbolBinario<T>::eliminar(T val){
@@ -135,15 +121,15 @@ bool arbolBinario<T>::eliminar(T val){
     bool eliminado = false;
 
     // comparar con dato en nodo para bajar por izq o der
-    while(nodo != NULL){
+    while(nodo != nullptr){
         padre = nodo;
-        if(val < nodo->getDato()){
-            nodo = nodo->getHijoIzq();
+        if(val < nodo->obtenerDato()){
+            nodo = nodo->obtenerHijoIzq();
         }
-        else if(val > nodo->getDato()){
-            nodo = nodo->getHijoDer();
+        else if(val > nodo->obtenerDato()){
+            nodo = nodo->obtenerHijoDer();
         }
-        if(val == nodo->getDato()){
+        if(val == nodo->obtenerDato()){
             encontrado = true;
             break;
         }
@@ -151,24 +137,24 @@ bool arbolBinario<T>::eliminar(T val){
 
     // si el dato esta
     if(encontrado){
-        std::cout<<"PADRE DEL NODO A BORRAR: "<<padre->getDato()<<std::endl;
-        std::cout<<"NODO A BORRAR: "<<nodo->getDato()<<std::endl;
+        std::cout<<"PADRE DEL NODO A BORRAR: "<<padre->obtenerDato()<<std::endl;
+        std::cout<<"NODO A BORRAR: "<<nodo->obtenerDato()<<std::endl;
 
         // 3. nodo tiene 2 hijos: usar maximo del izq como sucesor
-        if(nodo->getHijoIzq() != NULL && nodo->getHijoDer() != NULL){
+        if(nodo->obtenerHijoIzq() != nullptr && nodo->obtenerHijoDer() != nullptr){
             std::cout<<"CASO DOS HIJOS"<<std::endl;
 
             //encontrar maximo del subarbol izquierdo
             NodoBinario<T>* sucesor = nodo;
             NodoBinario<T>* padreSucesor = nodo;
-            sucesor = nodo->getHijoIzq();
-            while(sucesor->getHijoDer() != NULL){
+            sucesor = nodo->obtenerHijoIzq();
+            while(sucesor->obtenerHijoDer() != nullptr){
                 padreSucesor = sucesor;
-                sucesor = sucesor->getHijoDer();
+                sucesor = sucesor->obtenerHijoDer();
             }
 
-            std::cout<<"PADRE DEL NODO SUCESOR: "<<padreSucesor->getDato()<<std::endl;
-            std::cout<<"NODO SUCESOR: "<<sucesor->getDato()<<std::endl;
+            std::cout<<"PADRE DEL NODO SUCESOR: "<<padreSucesor->obtenerDato()<<std::endl;
+            std::cout<<"NODO SUCESOR: "<<sucesor->obtenerDato()<<std::endl;
 
             eliminado = true;
             std::cout<<"SE ELIMINO EN CASO HOJA"<<std::endl;
@@ -196,30 +182,29 @@ bool arbolBinario<T>::eliminar(T val){
         }
 
         // 2.1 el nodo tiene un hijo izquierdo
-        if(nodo->getHijoIzq() != NULL){
+        if(nodo->obtenerHijoIzq() != nullptr){
             std::cout<<"CASO UN HIJO IZQUIERDO"<<std::endl;
-            if(padre->getHijoDer() == nodo){
-                padre->setHijoDer(nodo->getHijoIzq());
-            }else if(padre->getHijoIzq() == nodo){
-                padre->setHijoIzq(nodo->getHijoIzq());
+            if(padre->obtenerHijoDer() == nodo){
+                padre->fijarHijoDer(nodo->obtenerHijoIzq());
+            }else if(padre->obtenerHijoIzq() == nodo){
+                padre->fijarHijoIzq(nodo->obtenerHijoIzq());
             }
             eliminado = true;
-            nodo->setHijoIzq(NULL);
-            //delete nodo;
+            nodo->fijarHijoIzq(nullptr);
             std::cout<<"SE ELIMINO EN CASO UN HIJO IZQUIERDO"<<std::endl;
             return eliminado;
         }
 
         // 2.2 el nodo tiene un hijo derecho
-        if(nodo->getHijoDer() != NULL){
+        if(nodo->obtenerHijoDer() != nullptr){
             std::cout<<"CASO UN HIJO DERECHO"<<std::endl;
-            if(padre->getHijoDer() == nodo){
-                padre->setHijoDer(nodo->getHijoDer());
-            }else if(padre->getHijoIzq() == nodo){
-                padre->setHijoIzq(nodo->getHijoDer());
+            if(padre->obtenerHijoDer() == nodo){
+                padre->fijarHijoDer(nodo->obtenerHijoDer());
+            }else if(padre->obtenerHijoIzq() == nodo){
+                padre->fijarHijoIzq(nodo->obtenerHijoDer());
             }
             eliminado = true;
-            nodo->setHijoDer(NULL);
+            nodo->fijarHijoIzq(nullptr);
             //delete nodo;
             std::cout<<"SE ELIMINO EN CASO UN HIJO DERECHO"<<std::endl;
             return eliminado;
@@ -229,19 +214,19 @@ bool arbolBinario<T>::eliminar(T val){
         if(nodo->esHoja()){
             std::cout<<"CASO HOJA"<<std::endl;
 
-            if(padre == NULL){
+            if(padre == nullptr){
                 std::cout<<"CASO HOJA PADRE NULL"<<std::endl;
-                this->raiz = NULL;
+                this->raiz = nullptr;
             }
 
-            if(padre->getHijoIzq()== nodo){
+            if(padre->obtenerHijoIzq()== nodo){
                 std::cout<<"CASO HOJA ES EL HIJO IZQ"<<std::endl;
-                padre->setHijoIzq(NULL);
+                padre->fijarHijoIzq(nullptr);
             }
 
-            if(padre->getHijoDer() == nodo){
+            if(padre->obtenerHijoDer() == nodo){
                 std::cout<<"CASO HOJA ES EL HIJO DER"<<std::endl;
-                padre->setHijoDer(NULL);
+                padre->fijarHijoDer(nullptr);
             }
 
             eliminado = true;
