@@ -59,6 +59,13 @@ int main( int argc, char* argv[] ) {
     //std::clock_t end_arbolAVL = std::clock( );
     //double tiempo_arbolAVL =
     //        ( end_arbolAVL - start_arbolAVL ) / double( CLOCKS_PER_SEC );
+
+    std::clock_t start_arbolAVL = std::clock( );
+    bool llenar_arbolAVL = ReadTree( llenar_arbolAVL, argv[ 1 ] );
+    std::clock_t end_arbolAVL = std::clock( );
+    double tiempo_arbolAVL =
+            ( end_arbolAVL - start_arbolAVL ) / double( CLOCKS_PER_SEC );
+
     /* TODO #7: si se pudo llenar el arbol, imprimir el tiempo
        if( llenar_arbolAVL )
          std::cout
