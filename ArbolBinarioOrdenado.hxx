@@ -74,7 +74,7 @@ int ArbolBinarioOrdenado<T>::tamano(NodoBinario<T>* nodo) {
 
 //iterativa
 template<class T>
-bool arbolBinario<T>::insertar(T val){
+bool ArbolBinarioOrdenado<T>::insertar(T val){
 
     NodoBinario<T> *nodo = this->raiz;
     NodoBinario<T> *padre = this->raiz;
@@ -100,7 +100,7 @@ bool arbolBinario<T>::insertar(T val){
 
         if(!duplicado){
             NodoBinario<T>* nuevo = new NodoBinario<T>(val);
-            if(nuevo != NULL){
+            if(nuevo != nullptr){
                 if(val < padre->obtenerDato()){
                     padre->fijarHijoIzq(nuevo);
                 }else{
@@ -114,7 +114,7 @@ bool arbolBinario<T>::insertar(T val){
 }
 
 template<class T>
-bool arbolBinario<T>::eliminar(T val){
+bool ArbolBinarioOrdenado<T>::eliminar(T val){
     NodoBinario<T> *nodo = this->raiz;
     NodoBinario<T> *padre = this->raiz;
     bool encontrado = false;
