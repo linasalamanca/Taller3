@@ -83,31 +83,55 @@ int getBalance(NodoBinario<T>* nodo) {
 }
 
 template<class T>
-NodoBinario<T>* rotacionDerecha(NodoBinario<T>* nodo) {
-    NodoBinario<T>* nodo2 = nodo->obtenerHijoIzq();
-    NodoBinario<T>* T2 = nodo2->obtenerHijoDer();
-
-    nodo2->fijarHijoDer(nodo);
-    nodo->fijarHijoIzq(T2);
-
+NodoBinario<T>* rotaciones(NodoBinario<T>* nodo) {
+    // Altura del nodo actual
     nodo->altura = std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer())) + 1;
-    nodo2->altura = std::max(altura(nodo2->obtenerHijoIzq()), altura(nodo2->obtenerHijoDer())) + 1;
 
-    return nodo2;
+    int balance = getBalance(nodo);
+
+    if (balance > 1) {
+        if (getBalance(nodo->obtenerHijoIzq()) >= 0) {
+            // Rotación simple a la derecha (LL)
+            NodoBinario<T>* nodo2 = nodo->obtenerHijoIzq();
+            NodoBinario<T>* T2 = nodo2->obtenerHijoDer();
+
+            nodo2->fijarHijoDer(nodo);
+            nodo->fijarHijoIzq(T2);
+
+            nodo->altura = std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer())) + 1;
+            nodo2->altura = std::max(altura(nodo2->obtenerHijoIzq()), altura(nodo2->obtenerHijoDer())) + 1;
+
+            return nodo2;
+        } else {
+            // Rotación izquierda-derecha (LR)
+            nodo->fijarHijoIzq(rotacionIzquierda(nodo->obtenerHijoIzq()));
+            return rotacionDerecha(nodo);
+        }
+    }
+
+    if (balance < -1) {
+        if (getBalance(nodo->obtenerHijoDer()) <= 0) {
+            // Rotación simple a la izquierda (RR)
+            NodoBinario<T>* nodo2 = nodo->obtenerHijoDer();
+            NodoBinario<T>* T2 = nodo2->obtenerHijoIzq();
+
+            nodo2->fijarHijoIzq(nodo);
+            nodo->fijarHijoDer(T2);
+
+            nodo->altura = std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer())) + 1;
+            nodo2->altura = std::max(altura(nodo2->obtenerHijoIzq()), altura(nodo2->obtenerHijoDer())) + 1;
+
+            return nodo2;
+        } else {
+            // Rotación derecha-izquierda (RL)
+            nodo->fijarHijoDer(rotacionDerecha(nodo->obtenerHijoDer()));
+            return rotacionIzquierda(nodo);
+        }
+    }
+
+    return nodo;
 }
-template<class T>
-NodoBinario<T>* rotacionIzquierda(NodoBinario<T>* nodo) {
-    NodoBinario<T>* nodo2 = nodo->obtenerHijoDer();
-    NodoBinario<T>* T2 = nodo2->obtenerHijoIzq();
 
-    nodo2->fijarHijoIzq(nodo);
-    nodo->fijarHijoDer(T2);
-
-    nodo->altura = std::max(altura(nodo2->obtenerHijoIzq()), altura(nodo2->obtenerHijoDer())) + 1;
-    nodo2->altura = std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer())) + 1;
-
-    return nodo2;
-}
 template<class T>
 NodoBinario<T>* insertAVL(NodoBinario<T>* nodo, T val){
 
