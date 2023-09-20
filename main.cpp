@@ -66,7 +66,7 @@ int main( int argc, char* argv[] ) {
     double tiempo_arbolAVL =
             ( end_arbolAVL - start_arbolAVL ) / double( CLOCKS_PER_SEC );
 
-    /* TODO #7: si se pudo llenar el arbol, imprimir el tiempo
+    // TODO #7: si se pudo llenar el arbol, imprimir el tiempo
        if( llenar_arbolAVL )
          std::cout
            << "Tiempo de llenado Arbol AVL = "
@@ -77,7 +77,7 @@ int main( int argc, char* argv[] ) {
            << "Error al usar \"" << argv[ 1 ]
            << "\" para llenar el arbol AVL."
            << std::endl;
-    */
+
 
     // Llenar arbol RN y obtener tiempo de ejecucion
     /*std::clock_t start_arbolRN = std::clock( );
@@ -135,24 +135,28 @@ int main( int argc, char* argv[] ) {
 // -------------------------------------------------------------------------
 template< class TTree >
 bool ReadTree( TTree& tree, const std::string& filename ) {
-
     std::ifstream input( filename.c_str( ) );
-    if( !input )
-        return( false );
-
-    while( !input.eof( ) ) {
-
-        std::string code, value;
-        input >> code >> value;
-        if( code == "add" )
-            tree.insertar( value );  // El arbol debe proveer el metodo "insert"
-        else if( code == "del" )
-            tree.eliminar( value );  // El arbol debe proveer el metodo "erase"
-
+    if( !input ) {
+        std::cout << "No se pudo abrir el archivo" << std::endl;
+        return false;
     }
 
+    while( !input.eof( ) ) {
+        std::string code, value;
+        input >> code;
+        if(input.eof()) {
+            break;
+        }
+
+        input >> value;
+        if( code == "add" ) {
+            tree.insertar( value );  // El arbol debe proveer el metodo "insert"
+        } else if( code == "del" ) {
+            tree.eliminar( value );  // El arbol debe proveer el metodo "erase" o "eliminar"
+        }
+    }
     input.close( );
-    return( true );
+    return true;
 }
 
 // eof - taller_3_ordenamiento_busqueda.cxx

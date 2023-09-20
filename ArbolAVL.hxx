@@ -5,20 +5,20 @@
 
 template< class T >
 ArbolAVL<T>::ArbolAVL(){
-    this->raiz = nullptr;
+    this->raiz = NULL;
 }
 
 template< class T >
 ArbolAVL<T>::~ArbolAVL(){
-    if(this->raiz != nullptr){
+    if(this->raiz != NULL){
         delete this->raiz;
-        this->raiz = nullptr;
+        this->raiz = NULL;
     }
 
 }
 template< class T >
 bool ArbolAVL<T>::esVacio(){
-    return this->raiz==nullptr;
+    return this->raiz==NULL;
 }
 
 template< class T >
@@ -44,9 +44,9 @@ int ArbolAVL<T>::altura(NodoBinario<T>* nodo){
         int valt_izq = -1;
         int valt_der = -1;
 
-        if(nodo->obtenerHijoIzq() != nullptr)
+        if(nodo->obtenerHijoIzq() != NULL)
             valt_izq = this -> altura(nodo->obtenerHijoIzq());
-        if(nodo->obtenerHijoDer() != nullptr)
+        if(nodo->obtenerHijoDer() != NULL)
             valt_der = this -> altura(nodo->obtenerHijoDer());
         if(valt_izq > valt_der)
             valt = valt_izq +  1;
@@ -64,7 +64,7 @@ int ArbolAVL<T>::tamano() {
 
 template<class T>
 int ArbolAVL<T>::tamano(NodoBinario<T>* nodo) {
-    if (nodo == nullptr) {
+    if (nodo == NULL) {
         return -1;
     } else {
         return 1 + tamano(nodo->obtenerHijoIzq()) + tamano(nodo->obtenerHijoDer());
@@ -216,7 +216,7 @@ bool ArbolAVL<T>::eliminar(T val) {
     NodoBinario<T>* nodo = this->raiz;
     NodoBinario<T>* padre = this->raiz;
 
-    while (nodo != nullptr && nodo->obtenerDato() != val) {
+    while (nodo != NULL && nodo->obtenerDato() != val) {
         padre = nodo;
         if (val < nodo->obtenerDato())
             nodo = nodo->obtenerHijoIzq();
@@ -224,17 +224,17 @@ bool ArbolAVL<T>::eliminar(T val) {
             nodo = nodo->obtenerHijoDer();
     }
 
-    if (nodo == nullptr) {
+    if (nodo == NULL) {
         return false;
     }
 
     //3. Nodo con dos hijos, usar elmaximo del subarbol izquierdo
     //   para reemplazazr nodo
-    if (nodo->obtenerHijoIzq() != nullptr && nodo->obtenerHijoDer() != nullptr) {
+    if (nodo->obtenerHijoIzq() != NULL && nodo->obtenerHijoDer() != NULL) {
         NodoBinario<T>* sucesor = nodo->obtenerHijoDer();
         NodoBinario<T>* sucesorPadre = nodo;
 
-        while (sucesor->obtenerHijoIzq() != nullptr) {
+        while (sucesor->obtenerHijoIzq() != NULL) {
             sucesorPadre = sucesor;
             sucesor = sucesor->obtenerHijoIzq();
         }
@@ -247,14 +247,14 @@ bool ArbolAVL<T>::eliminar(T val) {
 
    //2. Nodo con un solo hijo, usar hijo para reemplazar nodo
     NodoBinario<T>* hijo;
-    if (nodo->obtenerHijoIzq() != nullptr) {
+    if (nodo->obtenerHijoIzq() != NULL) {
         hijo = nodo->obtenerHijoIzq();
     } else {
         hijo = nodo->obtenerHijoDer();
     }
 
     // 1. Nodo hoja, borrarlo
-    if (padre == nullptr) {
+    if (padre == NULL) {
         this->raiz = hijo;
     } else {
         if (nodo == padre->obtenerHijoIzq())
@@ -273,7 +273,7 @@ bool ArbolAVL<T>::buscar(T val){
     NodoBinario<T>* nodo = this->raiz;
     bool encontrado = false;
 
-    while (nodo!=nullptr && !encontrado){
+    while (nodo!=NULL && !encontrado){
         if(val < nodo->obtenerDato()){
             nodo = nodo->obtenerHijoIzq();
         } else if(val > nodo->obtenerDato()){
@@ -288,7 +288,7 @@ bool ArbolAVL<T>::buscar(T val){
 //recurrente
 template< class T >
 void ArbolAVL<T>::preOrden(NodoBinario<T>* nodo){
-    if(nodo!=nullptr){
+    if(nodo!=NULL){
         std::cout << nodo->obtenerDato()<<" ";
         this->preOrden(nodo->obtenerHijoIzq());
         this->preOrden(nodo->obtenerHijoDer());
@@ -304,7 +304,7 @@ void ArbolAVL<T>::inOrden(){
 
 template< class T >
 void ArbolAVL<T>::inOrden(NodoBinario<T>* nodo){
-    if(nodo!=nullptr){
+    if(nodo!=NULL){
         this->inOrden(nodo->obtenerHijoIzq());
         std::cout << nodo->obtenerDato()<<" ";
         this->inOrden(nodo->obtenerHijoDer());
@@ -313,7 +313,7 @@ void ArbolAVL<T>::inOrden(NodoBinario<T>* nodo){
 //Recurrente
 template< class T >
 void ArbolAVL<T>::posOrden(NodoBinario<T>* nodo){
-    if(nodo!=nullptr){
+    if(nodo!=NULL){
         this->posOrden(nodo->obtenerHijoIzq());
         this->posOrden(nodo->obtenerHijoDer());
         std::cout << nodo->obtenerDato()<<" ";
@@ -331,10 +331,10 @@ void ArbolAVL<T>::nivelOrden(){
             nodo = cola.front();
             cola.pop();
             std::cout<< nodo->obtenerDato() << " ";
-            if(nodo->obtenerHijoIzq != nullptr){
+            if(nodo->obtenerHijoIzq != NULL){
                 cola.push(nodo->obtenerHijoIzq());
             }
-            if(nodo->obtenerHijoDer != nullptr){
+            if(nodo->obtenerHijoDer != NULL){
                 cola.push(nodo->obtenerHijoDer());
             }
         }

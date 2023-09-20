@@ -5,21 +5,21 @@
 
 template< class T >
 ArbolBinarioOrdenado<T>::ArbolBinarioOrdenado(){
-    this->raiz = nullptr;
+    this->raiz = NULL;
 }
 
 template< class T >
 ArbolBinarioOrdenado<T>::~ArbolBinarioOrdenado(){
-    if(this->raiz != nullptr){
+    if(this->raiz != NULL){
         delete this->raiz;
-        this->raiz = nullptr;
+        this->raiz = NULL;
     }
 
 }
 
 template< class T >
 bool ArbolBinarioOrdenado<T>::esVacio(){
-    return this->raiz==nullptr;
+    return this->raiz==NULL;
 }
 
 template< class T >
@@ -45,9 +45,9 @@ int ArbolBinarioOrdenado<T>::altura(NodoBinario<T>* nodo){
         int valt_izq = -1;
         int valt_der = -1;
 
-        if(nodo->obtenerHijoIzq() != nullptr)
+        if(nodo->obtenerHijoIzq() != NULL)
             valt_izq = this -> altura(nodo->obtenerHijoIzq());
-        if(nodo->obtenerHijoDer() != nullptr)
+        if(nodo->obtenerHijoDer() != NULL)
             valt_der = this -> altura(nodo->obtenerHijoDer());
         if(valt_izq > valt_der)
             valt = valt_izq +  1;
@@ -65,7 +65,7 @@ int ArbolBinarioOrdenado<T>::tamano() {
 
 template<class T>
 int ArbolBinarioOrdenado<T>::tamano(NodoBinario<T>* nodo) {
-    if (nodo == nullptr) {
+    if (nodo == NULL) {
         return -1;
     } else {
         return 1 + tamano(nodo->obtenerHijoIzq()) + tamano(nodo->obtenerHijoDer());
@@ -261,7 +261,7 @@ bool ArbolBinarioOrdenado<T>::buscar(T val){
     NodoBinario<T>* nodo = this->raiz;
     bool encontrado = false;
 
-    while (nodo!=nullptr && !encontrado){
+    while (nodo!=NULL && !encontrado){
         if(val < nodo->obtenerDato()){
             nodo = nodo->obtenerHijoIzq();
         } else if(val > nodo->obtenerDato()){
@@ -276,7 +276,7 @@ bool ArbolBinarioOrdenado<T>::buscar(T val){
 //recurrente
 template< class T >
 void ArbolBinarioOrdenado<T>::preOrden(NodoBinario<T>* nodo){
-    if(nodo!=nullptr){
+    if(nodo!=NULL){
         std::cout << nodo->obtenerDato()<<" ";
         this->preOrden(nodo->obtenerHijoIzq());
         this->preOrden(nodo->obtenerHijoDer());
@@ -292,7 +292,7 @@ void ArbolBinarioOrdenado<T>::inOrden(){
 
 template< class T >
 void ArbolBinarioOrdenado<T>::inOrden(NodoBinario<T>* nodo){
-    if(nodo!=nullptr){
+    if(nodo!=NULL){
         this->inOrden(nodo->obtenerHijoIzq());
         std::cout << nodo->obtenerDato()<<" ";
         this->inOrden(nodo->obtenerHijoDer());
@@ -301,7 +301,7 @@ void ArbolBinarioOrdenado<T>::inOrden(NodoBinario<T>* nodo){
 //Recurrente
 template< class T >
 void ArbolBinarioOrdenado<T>::posOrden(NodoBinario<T>* nodo){
-    if(nodo!=nullptr){
+    if(nodo!=NULL){
         this->posOrden(nodo->obtenerHijoIzq());
         this->posOrden(nodo->obtenerHijoDer());
         std::cout << nodo->obtenerDato()<<" ";
@@ -319,10 +319,10 @@ void ArbolBinarioOrdenado<T>::nivelOrden(){
             nodo = cola.front();
             cola.pop();
             std::cout<< nodo->obtenerDato() << " ";
-            if(nodo->obtenerHijoIzq != nullptr){
+            if(nodo->obtenerHijoIzq != NULL){
                 cola.push(nodo->obtenerHijoIzq());
             }
-            if(nodo->obtenerHijoDer != nullptr){
+            if(nodo->obtenerHijoDer != NULL){
                 cola.push(nodo->obtenerHijoDer());
             }
         }
