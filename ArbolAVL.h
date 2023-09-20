@@ -19,7 +19,7 @@ public:
     NodoBinario<T>* rotacionDerecha(NodoBinario<T>* nodo);
     NodoBinario<T>* rotacionIzquierda(NodoBinario<T>* nodo);
     NodoBinario<T>* insertAVL(NodoBinario<T>* nodo, T val);
-    bool insertar(T val);
+    NodoBinario<T>* insertar(T val);
     bool eliminar(T val);
     bool buscar(T val);
     void preOrden(NodoBinario<T>* nodo);
@@ -28,6 +28,9 @@ public:
     void posOrden(NodoBinario<T>* nodo);
     void nivelOrden();
 };
+
+
+
 #include "ArbolAVL.hxx"
 #endif // __ARBOLAVL_H__
 

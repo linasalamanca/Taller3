@@ -7,7 +7,7 @@ protected:
     T dato;
     NodoBinario<T>* hijoIzq;
     NodoBinario<T>* hijoDer;
-
+    int altura;
 public:
     NodoBinario();
     NodoBinario(T val);
@@ -19,6 +19,8 @@ public:
     void fijarHijoIzq(NodoBinario<T>* izq);
     void fijarHijoDer(NodoBinario<T>* der);
     bool esHoja();
+    int getAltura();
+    void setAltura(int alt);
 
 };
 

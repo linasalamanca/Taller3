@@ -4,6 +4,7 @@ template<class T>
 NodoBinario<T>::NodoBinario() {
     this->hijoIzq = nullptr;
     this->hijoDer = nullptr;
+    this->altura = 1;
 }
 
 template<class T>
@@ -58,4 +59,12 @@ void NodoBinario<T>::fijarHijoDer(NodoBinario<T>* der) {
 template<class T>
 bool NodoBinario<T>::esHoja(){
     return (this->hijoIzq == nullptr && this->hijoDer == nullptr);
+}
+template<class T>
+int NodoBinario<T>::getAltura() {
+    return this->altura;
+}
+template<class T>
+void NodoBinario<T>::setAltura(int alt) {
+    this->altura = alt;
 }

@@ -7,6 +7,7 @@
 #include <set>
 // TODO #1: incluir cabeceras implementaciones propias
 #include "ArbolBinarioOrdenado.h"
+#include "ArbolAVL.h"
 // #include "---> implementacion_ArbolAVL.h <---"
 
 // -------------------------------------------------------------------------
@@ -14,7 +15,8 @@ typedef std::list< std::string > TList;
 typedef std::set< std::string >  TSet;
 // TODO #2: definir tipos de datos para arboles de cadenas de caracteres
 typedef ArbolBinarioOrdenado<std::string> TArbolBO;
-// typedef implementacion_ArbolAVL< std::string > TArbolAVL;
+typedef ArbolAVL<std::string> TArbolAVL;
+
 
 // -------------------------------------------------------------------------
 template< class TTree >
@@ -30,7 +32,7 @@ int main( int argc, char* argv[] ) {
 
     // TODO #3: declarar arboles
     TArbolBO arbolBO;
-    //TArbolAVL arbolAVL;
+    TArbolAVL arbolAVL;
     //TSet arbolRN;
 
     // Llenar arbol binario ordenado y obtener tiempo de ejecucion
@@ -53,31 +55,27 @@ int main( int argc, char* argv[] ) {
            << std::endl;
 
     // Llenar arbol AVL y obtener tiempo de ejecucion
-    //std::clock_t start_arbolAVL = std::clock( );
+
     // TODO #6: llenar arbol AVL desde archivo con funcion ReadTree
-    // bool llenar_arbolAVL = ReadTree( arbolAVL, argv[ 1 ] );
-    //std::clock_t end_arbolAVL = std::clock( );
-    //double tiempo_arbolAVL =
-    //        ( end_arbolAVL - start_arbolAVL ) / double( CLOCKS_PER_SEC );
 
     std::clock_t start_arbolAVL = std::clock( );
-    bool llenar_arbolAVL = ReadTree( llenar_arbolAVL, argv[ 1 ] );
+    bool llenar_arbolAVL = ReadTree( arbolAVL , argv[ 1 ] );
     std::clock_t end_arbolAVL = std::clock( );
     double tiempo_arbolAVL =
             ( end_arbolAVL - start_arbolAVL ) / double( CLOCKS_PER_SEC );
 
-    /* TODO #7: si se pudo llenar el arbol, imprimir el tiempo
-       if( llenar_arbolAVL )
-         std::cout
-           << "Tiempo de llenado Arbol AVL = "
-           << tiempo_arbolAVL << "seg."
-           << std::endl;
-       else
-         std::cout
-           << "Error al usar \"" << argv[ 1 ]
-           << "\" para llenar el arbol AVL."
-           << std::endl;
-    */
+     //TODO #7: si se pudo llenar el arbol, imprimir el tiempo
+       if( llenar_arbolAVL ) {
+           std::cout
+                   << "Tiempo de llenado Arbol AVL = "
+                   << tiempo_arbolAVL << "seg."
+                   << std::endl;
+       }else {
+           std::cout
+                   << "Error al usar \"" << argv[1]
+                   << "\" para llenar el arbol AVL."
+                   << std::endl;
+       }
 
     // Llenar arbol RN y obtener tiempo de ejecucion
     /*std::clock_t start_arbolRN = std::clock( );
@@ -134,26 +132,30 @@ int main( int argc, char* argv[] ) {
 
 // -------------------------------------------------------------------------
 template< class TTree >
-bool ReadTree( TTree& tree, const std::string& filename ) {
+bool ReadTree(TTree& tree, const std::string& filename ) {
 
     std::ifstream input( filename.c_str( ) );
     if( !input )
-        return( false );
+        return false;
 
     while( !input.eof( ) ) {
 
         std::string code, value;
         input >> code >> value;
-        if( code == "add" )
-            tree.insert( value );  // El arbol debe proveer el metodo "insert"
-        else if( code == "del" )
-            tree.erase( value );  // El arbol debe proveer el metodo "erase"
+        if (code == "add"){
+            tree.insertar(value);
+
+        }
+        else if( code == "del" ) {
+            tree.eliminar(value);
+        }
 
     }
 
-    input.close( );
-    return( true );
+    input.close();
+    return true;
 }
+
 
 // eof - taller_3_ordenamiento_busqueda.cxx
 
