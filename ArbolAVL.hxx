@@ -306,10 +306,10 @@ void ArbolAVL<T>::nivelOrden(){
             nodo = cola.front();
             cola.pop();
             std::cout<< nodo->obtenerDato() << " ";
-            if(nodo->obtenerHijoIzq != nullptr){
+            if(nodo->obtenerHijoIzq() != nullptr){
                 cola.push(nodo->obtenerHijoIzq());
             }
-            if(nodo->obtenerHijoDer != nullptr){
+            if(nodo->obtenerHijoDer() != nullptr){
                 cola.push(nodo->obtenerHijoDer());
             }
         }
