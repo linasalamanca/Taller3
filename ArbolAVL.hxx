@@ -91,7 +91,7 @@ NodoBinario<T>* rotaciones(NodoBinario<T>* nodo) {
 
     if (balance > 1) {
         if (getBalance(nodo->obtenerHijoIzq()) >= 0) {
-            // Rotación simple a la derecha (LL)
+            //(LL)
             NodoBinario<T>* nodo2 = nodo->obtenerHijoIzq();
             NodoBinario<T>* T2 = nodo2->obtenerHijoDer();
 
@@ -103,7 +103,7 @@ NodoBinario<T>* rotaciones(NodoBinario<T>* nodo) {
 
             return nodo2;
         } else {
-            // Rotación izquierda-derecha (LR)
+            //(LR)
             nodo->fijarHijoIzq(rotacionIzquierda(nodo->obtenerHijoIzq()));
             return rotacionDerecha(nodo);
         }
@@ -111,7 +111,7 @@ NodoBinario<T>* rotaciones(NodoBinario<T>* nodo) {
 
     if (balance < -1) {
         if (getBalance(nodo->obtenerHijoDer()) <= 0) {
-            // Rotación simple a la izquierda (RR)
+            //(RR)
             NodoBinario<T>* nodo2 = nodo->obtenerHijoDer();
             NodoBinario<T>* T2 = nodo2->obtenerHijoIzq();
 
@@ -123,7 +123,7 @@ NodoBinario<T>* rotaciones(NodoBinario<T>* nodo) {
 
             return nodo2;
         } else {
-            // Rotación derecha-izquierda (RL)
+            //(RL)
             nodo->fijarHijoDer(rotacionDerecha(nodo->obtenerHijoDer()));
             return rotacionIzquierda(nodo);
         }
