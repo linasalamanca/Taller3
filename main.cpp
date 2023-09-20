@@ -7,14 +7,14 @@
 #include <set>
 // TODO #1: incluir cabeceras implementaciones propias
 #include "ArbolBinarioOrdenado.h"
-// #include "---> implementacion_ArbolAVL.h <---"
+ #include "ArbolAVL.h"
 
 // -------------------------------------------------------------------------
 typedef std::list< std::string > TList;
 typedef std::set< std::string >  TSet;
 // TODO #2: definir tipos de datos para arboles de cadenas de caracteres
 typedef ArbolBinarioOrdenado<std::string> TArbolBO;
-// typedef implementacion_ArbolAVL< std::string > TArbolAVL;
+ typedef ArbolAVL< std::string > TArbolAVL;
 
 // -------------------------------------------------------------------------
 template< class TTree >
@@ -30,7 +30,7 @@ int main( int argc, char* argv[] ) {
 
     // TODO #3: declarar arboles
     TArbolBO arbolBO;
-    //TArbolAVL arbolAVL;
+    TArbolAVL arbolAVL;
     //TSet arbolRN;
 
     // Llenar arbol binario ordenado y obtener tiempo de ejecucion
@@ -61,7 +61,7 @@ int main( int argc, char* argv[] ) {
     //        ( end_arbolAVL - start_arbolAVL ) / double( CLOCKS_PER_SEC );
 
     std::clock_t start_arbolAVL = std::clock( );
-    bool llenar_arbolAVL = ReadTree( llenar_arbolAVL, argv[ 1 ] );
+    bool llenar_arbolAVL = ReadTree( arbolAVL , argv[ 1 ] );
     std::clock_t end_arbolAVL = std::clock( );
     double tiempo_arbolAVL =
             ( end_arbolAVL - start_arbolAVL ) / double( CLOCKS_PER_SEC );
@@ -145,9 +145,9 @@ bool ReadTree( TTree& tree, const std::string& filename ) {
         std::string code, value;
         input >> code >> value;
         if( code == "add" )
-            tree.insert( value );  // El arbol debe proveer el metodo "insert"
+            tree.insertar( value );  // El arbol debe proveer el metodo "insert"
         else if( code == "del" )
-            tree.erase( value );  // El arbol debe proveer el metodo "erase"
+            tree.eliminar( value );  // El arbol debe proveer el metodo "erase"
 
     }
 

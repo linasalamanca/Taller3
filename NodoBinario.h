@@ -7,7 +7,6 @@ protected:
     T dato;
     NodoBinario<T>* hijoIzq;
     NodoBinario<T>* hijoDer;
-    int altura;
 public:
     NodoBinario();
     NodoBinario(T val);
@@ -22,6 +21,7 @@ public:
     int getAltura();
     void setAltura(int alt);
 
+    int altura;
 };
 
 #include "NodoBinario.hxx"
