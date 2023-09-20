@@ -27,12 +27,12 @@ NodoBinario<T>::~NodoBinario() {
 }
 
 template<class T>
-T& NodoBinario<T>::obtenerDato() {
+T NodoBinario<T>::obtenerDato() {
     return this->dato;
 }
 
 template<class T>
-void NodoBinario<T>::fijarDato(T& val) {
+void NodoBinario<T>::fijarDato(T val) {
     this->dato = val;
 }
 

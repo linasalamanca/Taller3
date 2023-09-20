@@ -5,21 +5,21 @@
 
 template< class T >
 ArbolBinarioOrdenado<T>::ArbolBinarioOrdenado(){
-    this->raiz = NULL;
+    this->raiz = nullptr;
 }
 
 template< class T >
 ArbolBinarioOrdenado<T>::~ArbolBinarioOrdenado(){
-    if(this->raiz != NULL){
+    if(this->raiz != nullptr){
         delete this->raiz;
-        this->raiz = NULL;
+        this->raiz = nullptr;
     }
 
 }
 
 template< class T >
 bool ArbolBinarioOrdenado<T>::esVacio(){
-    return this->raiz==NULL;
+    return this->raiz==nullptr;
 }
 
 template< class T >
@@ -45,9 +45,9 @@ int ArbolBinarioOrdenado<T>::altura(NodoBinario<T>* nodo){
         int valt_izq = -1;
         int valt_der = -1;
 
-        if(nodo->obtenerHijoIzq() != NULL)
+        if(nodo->obtenerHijoIzq() != nullptr)
             valt_izq = this -> altura(nodo->obtenerHijoIzq());
-        if(nodo->obtenerHijoDer() != NULL)
+        if(nodo->obtenerHijoDer() != nullptr)
             valt_der = this -> altura(nodo->obtenerHijoDer());
         if(valt_izq > valt_der)
             valt = valt_izq +  1;
@@ -65,7 +65,7 @@ int ArbolBinarioOrdenado<T>::tamano() {
 
 template<class T>
 int ArbolBinarioOrdenado<T>::tamano(NodoBinario<T>* nodo) {
-    if (nodo == NULL) {
+    if (nodo == nullptr) {
         return -1;
     } else {
         return 1 + tamano(nodo->obtenerHijoIzq()) + tamano(nodo->obtenerHijoDer());
@@ -74,7 +74,7 @@ int ArbolBinarioOrdenado<T>::tamano(NodoBinario<T>* nodo) {
 
 //iterativa
 template<class T>
-bool ArbolBinarioOrdenado<T>::insertar(T val){
+bool arbolBinario<T>::insertar(T val){
 
     NodoBinario<T> *nodo = this->raiz;
     NodoBinario<T> *padre = this->raiz;
@@ -88,10 +88,10 @@ bool ArbolBinarioOrdenado<T>::insertar(T val){
     }else{
         while (nodo != NULL) {
             padre = nodo;
-            if (val < nodo->obtenerDato()){
-                nodo = nodo->obtenerHijoIzq();
-            }else if(val > nodo->obtenerDato()){
-                nodo = nodo->obtenerHijoDer();
+            if (val < nodo->getDato()){
+                nodo = nodo->getHijoIzq();
+            }else if(val > nodo->getDato()){
+                nodo = nodo->getHijoDer();
             }else{
                 duplicado = true;
                 break;
@@ -101,10 +101,10 @@ bool ArbolBinarioOrdenado<T>::insertar(T val){
         if(!duplicado){
             NodoBinario<T>* nuevo = new NodoBinario<T>(val);
             if(nuevo != NULL){
-                if(val < padre->obtenerDato()){
-                    padre->fijarHijoIzq(nuevo);
+                if(val < padre->getDato()){
+                    padre->setHijoIzq(nuevo);
                 }else{
-                    padre->fijarHijoDer(nuevo);
+                    padre->setHijoDer(nuevo);
                 }
                 insertado = true;
             }
@@ -128,59 +128,131 @@ ArbolBinarioOrdenado<T>::eliminar(T val){
 }*/
 
 template<class T>
-bool ArbolBinarioOrdenado<T>::eliminar(T val) {
-    NodoBinario<T>* nodo = this->raiz;
-    NodoBinario<T>* padre = this->raiz;
+bool arbolBinario<T>::eliminar(T val){
+    NodoBinario<T> *nodo = this->raiz;
+    NodoBinario<T> *padre = this->raiz;
+    bool encontrado = false;
+    bool eliminado = false;
 
-    while (nodo != NULL && nodo->obtenerDato() != val) {
+    // comparar con dato en nodo para bajar por izq o der
+    while(nodo != NULL){
         padre = nodo;
-        if (val < nodo->obtenerDato())
-            nodo = nodo->obtenerHijoIzq();
-        else
-            nodo = nodo->obtenerHijoDer();
+        if(val < nodo->getDato()){
+            nodo = nodo->getHijoIzq();
+        }
+        else if(val > nodo->getDato()){
+            nodo = nodo->getHijoDer();
+        }
+        if(val == nodo->getDato()){
+            encontrado = true;
+            break;
+        }
     }
 
-    if (nodo == NULL) {
-        return false;
-    }
+    // si el dato esta
+    if(encontrado){
+        std::cout<<"PADRE DEL NODO A BORRAR: "<<padre->getDato()<<std::endl;
+        std::cout<<"NODO A BORRAR: "<<nodo->getDato()<<std::endl;
 
-    //3. Nodo con dos hijos, usar elmaximo del subarbol izquierdo
-    //   para reemplazazr nodo
-    if (nodo->obtenerHijoIzq() != NULL && nodo->obtenerHijoDer() != NULL) {
-        NodoBinario<T>* sucesor = nodo->obtenerHijoDer();
-        NodoBinario<T>* sucesorPadre = nodo;
+        // 3. nodo tiene 2 hijos: usar maximo del izq como sucesor
+        if(nodo->getHijoIzq() != NULL && nodo->getHijoDer() != NULL){
+            std::cout<<"CASO DOS HIJOS"<<std::endl;
 
-        while (sucesor->obtenerHijoIzq() != NULL) {
-            sucesorPadre = sucesor;
-            sucesor = sucesor->obtenerHijoIzq();
+            //encontrar maximo del subarbol izquierdo
+            NodoBinario<T>* sucesor = nodo;
+            NodoBinario<T>* padreSucesor = nodo;
+            sucesor = nodo->getHijoIzq();
+            while(sucesor->getHijoDer() != NULL){
+                padreSucesor = sucesor;
+                sucesor = sucesor->getHijoDer();
+            }
+
+            std::cout<<"PADRE DEL NODO SUCESOR: "<<padreSucesor->getDato()<<std::endl;
+            std::cout<<"NODO SUCESOR: "<<sucesor->getDato()<<std::endl;
+
+            eliminado = true;
+            std::cout<<"SE ELIMINO EN CASO HOJA"<<std::endl;
+            return eliminado;
+            /*
+            //revisar si sucesor tiene hijo izquierdo
+            if(sucesor->getHijoIzq() != NULL){
+                NodoBinario<T>* hijoSucesor = sucesor->getHijoIzq();
+                padreSucesor->setHijoDer(hijoSucesor);
+                sucesor->setHijoIzq(NULL);
+            }
+
+            //conectar sucesor con los hijos del eliminado
+            sucesor->setHijoIzq(nodo->getHijoIzq());
+            sucesor->setHijoDer(nodo->getHijoDer());
+
+            //conectar sucesor con su padre
+            if(padre->getHijoDer() == nodo){
+               padre->setHijoDer(sucesor);
+            }else if(padre->getHijoIzq() == nodo){
+                padre->setHijoIzq(sucesor);
+            }
+            std::cout<<"SE ELIMINO EN CASO DOS HIJOS"<<std::endl;
+            eliminado = true;*/
         }
 
-        nodo->fijarDato(sucesor->obtenerDato());
+        // 2.1 el nodo tiene un hijo izquierdo
+        if(nodo->getHijoIzq() != NULL){
+            std::cout<<"CASO UN HIJO IZQUIERDO"<<std::endl;
+            if(padre->getHijoDer() == nodo){
+                padre->setHijoDer(nodo->getHijoIzq());
+            }else if(padre->getHijoIzq() == nodo){
+                padre->setHijoIzq(nodo->getHijoIzq());
+            }
+            eliminado = true;
+            nodo->setHijoIzq(NULL);
+            //delete nodo;
+            std::cout<<"SE ELIMINO EN CASO UN HIJO IZQUIERDO"<<std::endl;
+            return eliminado;
+        }
 
-        nodo = sucesor;
-        padre = sucesorPadre;
+        // 2.2 el nodo tiene un hijo derecho
+        if(nodo->getHijoDer() != NULL){
+            std::cout<<"CASO UN HIJO DERECHO"<<std::endl;
+            if(padre->getHijoDer() == nodo){
+                padre->setHijoDer(nodo->getHijoDer());
+            }else if(padre->getHijoIzq() == nodo){
+                padre->setHijoIzq(nodo->getHijoDer());
+            }
+            eliminado = true;
+            nodo->setHijoDer(NULL);
+            //delete nodo;
+            std::cout<<"SE ELIMINO EN CASO UN HIJO DERECHO"<<std::endl;
+            return eliminado;
+        }
+
+        // 1. el nodo es hoja: borrar
+        if(nodo->esHoja()){
+            std::cout<<"CASO HOJA"<<std::endl;
+
+            if(padre == NULL){
+                std::cout<<"CASO HOJA PADRE NULL"<<std::endl;
+                this->raiz = NULL;
+            }
+
+            if(padre->getHijoIzq()== nodo){
+                std::cout<<"CASO HOJA ES EL HIJO IZQ"<<std::endl;
+                padre->setHijoIzq(NULL);
+            }
+
+            if(padre->getHijoDer() == nodo){
+                std::cout<<"CASO HOJA ES EL HIJO DER"<<std::endl;
+                padre->setHijoDer(NULL);
+            }
+
+            eliminado = true;
+            std::cout<<"SE ELIMINO EN CASO HOJA"<<std::endl;
+            return eliminado;
+        }
+        if(eliminado){
+            delete nodo;
+        }
     }
-
-   //2. Nodo con un solo hijo, usar hijo para reemplazar nodo
-    NodoBinario<T>* hijo;
-    if (nodo->obtenerHijoIzq() != NULL) {
-        hijo = nodo->obtenerHijoIzq();
-    } else {
-        hijo = nodo->obtenerHijoDer();
-    }
-
-    // 1. Nodo hoja, borrarlo
-    if (padre == NULL) {
-        this->raiz = hijo;
-    } else {
-        if (nodo == padre->obtenerHijoIzq())
-            padre->fijarHijoIzq(hijo);
-        else
-            padre->fijarHijoDer(hijo);
-    }
-
-    delete nodo;
-    return true;
+    return eliminado;
 }
 
 //iterativa
@@ -189,7 +261,7 @@ bool ArbolBinarioOrdenado<T>::buscar(T val){
     NodoBinario<T>* nodo = this->raiz;
     bool encontrado = false;
 
-    while (nodo!=NULL && !encontrado){
+    while (nodo!=nullptr && !encontrado){
         if(val < nodo->obtenerDato()){
             nodo = nodo->obtenerHijoIzq();
         } else if(val > nodo->obtenerDato()){
@@ -204,7 +276,7 @@ bool ArbolBinarioOrdenado<T>::buscar(T val){
 //recurrente
 template< class T >
 void ArbolBinarioOrdenado<T>::preOrden(NodoBinario<T>* nodo){
-    if(nodo!=NULL){
+    if(nodo!=nullptr){
         std::cout << nodo->obtenerDato()<<" ";
         this->preOrden(nodo->obtenerHijoIzq());
         this->preOrden(nodo->obtenerHijoDer());
@@ -220,7 +292,7 @@ void ArbolBinarioOrdenado<T>::inOrden(){
 
 template< class T >
 void ArbolBinarioOrdenado<T>::inOrden(NodoBinario<T>* nodo){
-    if(nodo!=NULL){
+    if(nodo!=nullptr){
         this->inOrden(nodo->obtenerHijoIzq());
         std::cout << nodo->obtenerDato()<<" ";
         this->inOrden(nodo->obtenerHijoDer());
@@ -229,7 +301,7 @@ void ArbolBinarioOrdenado<T>::inOrden(NodoBinario<T>* nodo){
 //Recurrente
 template< class T >
 void ArbolBinarioOrdenado<T>::posOrden(NodoBinario<T>* nodo){
-    if(nodo!=NULL){
+    if(nodo!=nullptr){
         this->posOrden(nodo->obtenerHijoIzq());
         this->posOrden(nodo->obtenerHijoDer());
         std::cout << nodo->obtenerDato()<<" ";
@@ -247,10 +319,10 @@ void ArbolBinarioOrdenado<T>::nivelOrden(){
             nodo = cola.front();
             cola.pop();
             std::cout<< nodo->obtenerDato() << " ";
-            if(nodo->obtenerHijoIzq != NULL){
+            if(nodo->obtenerHijoIzq != nullptr){
                 cola.push(nodo->obtenerHijoIzq());
             }
-            if(nodo->obtenerHijoDer != NULL){
+            if(nodo->obtenerHijoDer != nullptr){
                 cola.push(nodo->obtenerHijoDer());
             }
         }

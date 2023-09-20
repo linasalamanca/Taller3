@@ -5,21 +5,20 @@
 
 template< class T >
 ArbolAVL<T>::ArbolAVL(){
-    this->raiz = NULL;
+    this->raiz = nullptr;
 }
 
 template< class T >
 ArbolAVL<T>::~ArbolAVL(){
-    if(this->raiz != NULL){
+    if(this->raiz != nullptr){
         delete this->raiz;
-        this->raiz = NULL;
+        this->raiz = nullptr;
     }
 
 }
 template< class T >
-
 bool ArbolAVL<T>::esVacio(){
-    return this->raiz==NULL;
+    return this->raiz==nullptr;
 }
 
 template< class T >
@@ -35,28 +34,28 @@ int ArbolAVL<T>::altura(){
         return this-> altura(this->raiz);
 }
 
-template< class T >
-int ArbolAVL<T>::altura(NodoBinario<T>* nodo) {
+/*template< class T >
+int ArbolAVL<T>::altura(NodoBinario<T>* nodo){
     int valt;
 
-    if (nodo->esHoja()) {
+    if(nodo->esHoja()){
         valt = 0;
-    } else {
+    }else{
         int valt_izq = -1;
         int valt_der = -1;
 
-        if (nodo->obtenerHijoIzq() != NULL)
-            valt_izq = this->altura(nodo->obtenerHijoIzq());
-        if (nodo->obtenerHijoDer() != NULL)
-            valt_der = this->altura(nodo->obtenerHijoDer());
-        if (valt_izq > valt_der)
-            valt = valt_izq + 1;
+        if(nodo->obtenerHijoIzq() != nullptr)
+            valt_izq = this -> altura(nodo->obtenerHijoIzq());
+        if(nodo->obtenerHijoDer() != nullptr)
+            valt_der = this -> altura(nodo->obtenerHijoDer());
+        if(valt_izq > valt_der)
+            valt = valt_izq +  1;
         else
             valt = valt_der + 1;
     }
 
     return valt;
-}
+}*/
 //recurrente
 template<class T>
 int ArbolAVL<T>::tamano() {
@@ -65,7 +64,7 @@ int ArbolAVL<T>::tamano() {
 
 template<class T>
 int ArbolAVL<T>::tamano(NodoBinario<T>* nodo) {
-    if (nodo == NULL) {
+    if (nodo == nullptr) {
         return -1;
     } else {
         return 1 + tamano(nodo->obtenerHijoIzq()) + tamano(nodo->obtenerHijoDer());
@@ -78,83 +77,72 @@ int altura(NodoBinario<T>* nodo) {
     return nodo->altura; // Asume que cada nodo tiene una propiedad de altura.
 }
 template<class T>
-int ArbolAVL<T>::getBalance(NodoBinario<T>* nodo) {
+int getBalance(NodoBinario<T>* nodo) {
     if (!nodo) return 0;
     return altura(nodo->obtenerHijoIzq()) - altura(nodo->obtenerHijoDer());
 }
 
 template<class T>
-NodoBinario<T>* ArbolAVL<T>::rotacionDerecha(NodoBinario<T> *nodo) {
+NodoBinario<T>* rotacionDerecha(NodoBinario<T>* nodo) {
     NodoBinario<T>* nodo2 = nodo->obtenerHijoIzq();
     NodoBinario<T>* T2 = nodo2->obtenerHijoDer();
 
     nodo2->fijarHijoDer(nodo);
     nodo->fijarHijoIzq(T2);
 
-    nodo->setAltura(std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer())) + 1);
-    nodo2->setAltura(std::max(altura(nodo2->obtenerHijoIzq()), altura(nodo2->obtenerHijoDer())) + 1);
+    nodo->altura = std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer())) + 1;
+    nodo2->altura = std::max(altura(nodo2->obtenerHijoIzq()), altura(nodo2->obtenerHijoDer())) + 1;
 
     return nodo2;
 }
 template<class T>
-NodoBinario<T>* ArbolAVL<T>::rotacionIzquierda(NodoBinario<T> *nodo) {
+NodoBinario<T>* rotacionIzquierda(NodoBinario<T>* nodo) {
     NodoBinario<T>* nodo2 = nodo->obtenerHijoDer();
     NodoBinario<T>* T2 = nodo2->obtenerHijoIzq();
 
     nodo2->fijarHijoIzq(nodo);
     nodo->fijarHijoDer(T2);
 
-    nodo->setAltura(std::max(altura(nodo2->obtenerHijoIzq()), altura(nodo2->obtenerHijoDer())) + 1);
-    nodo2->setAltura(std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer())) + 1);
+    nodo->altura = std::max(altura(nodo2->obtenerHijoIzq()), altura(nodo2->obtenerHijoDer())) + 1;
+    nodo2->altura = std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer())) + 1;
 
     return nodo2;
 }
-
 template<class T>
-NodoBinario<T>* ArbolAVL<T>::insertar(T val) {
-    this->raiz = insertAVL(this->raiz, val);
-    return this->raiz;
-}
+NodoBinario<T>* insertAVL(NodoBinario<T>* nodo, T val){
 
-template<class T>
-NodoBinario<T>* ArbolAVL<T>::insertAVL(NodoBinario<T>* nodo, T val) {
-
-    if (nodo == NULL) {
+    if (!nodo)
         return new NodoBinario<T>(val);
-    }
 
     if (val < nodo->obtenerDato()) {
         nodo->fijarHijoIzq(insertAVL(nodo->obtenerHijoIzq(), val));
     } else if (val > nodo->obtenerDato()) {
         nodo->fijarHijoDer(insertAVL(nodo->obtenerHijoDer(), val));
     } else {
-        return nodo;
+        return nodo; // No se permiten duplicados
     }
 
-    // Actualizar altura del nodo
-    nodo->setAltura( 1 + std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer())));
+    nodo->altura = 1 + std::max(altura(nodo->obtenerHijoIzq()), altura(nodo->obtenerHijoDer()));
 
     int balance = getBalance(nodo);
 
     // Si este nodo se vuelve desequilibrado, hay 4 posibles casos
 
-    // Rotación simple a la derecha
-    if (balance > 1 && val < nodo->obtenerHijoIzq()->obtenerDato()) {
+    // Caso izquierda izquierda
+    if (balance > 1 && val < nodo->obtenerHijoIzq()->obtenerDato())
         return rotacionDerecha(nodo);
-    }
 
-    // Rotación simple a la izquierda
-    if (balance < -1 && val > nodo->obtenerHijoDer()->obtenerDato()) {
+    // Caso derecha derecha
+    if (balance < -1 && val > nodo->obtenerHijoDer()->obtenerDato())
         return rotacionIzquierda(nodo);
-    }
 
-    // Rotación 1: Izquierda-Derecha
+    // Caso izquierda derecha
     if (balance > 1 && val > nodo->obtenerHijoIzq()->obtenerDato()) {
         nodo->fijarHijoIzq(rotacionIzquierda(nodo->obtenerHijoIzq()));
         return rotacionDerecha(nodo);
     }
 
-    // Rotación 2: Derecha-Izquierda
+    // Caso derecha izquierda
     if (balance < -1 && val < nodo->obtenerHijoDer()->obtenerDato()) {
         nodo->fijarHijoDer(rotacionDerecha(nodo->obtenerHijoDer()));
         return rotacionIzquierda(nodo);
@@ -163,81 +151,23 @@ NodoBinario<T>* ArbolAVL<T>::insertAVL(NodoBinario<T>* nodo, T val) {
     return nodo;
 }
 
-/*template<class T>
-NodoBinario<T>* insertar(NodoBinario<T>* nodo, T val) {
-
-    *nodo = nodo->raiz;
-    NodoBinario<T> *padre = nodo->raiz;
-    bool duplicado = false;
-    bool insertado = false;
-
-    if(nodo->raiz == NULL){
-        nodo->raiz = new NodoBinario<T>(val);
-        insertado = true;
-        return insertado;
-    }else{
-        while (nodo != NULL) {
-            padre = nodo;
-            if (val < nodo->getDato()){
-                nodo = nodo->getHijoIzq();
-            }else if(val > nodo->getDato()){
-                nodo = nodo->getHijoDer();
-            }else{
-                duplicado = true;
-                break;
-            }
-        }
-        if(!duplicado){
-            NodoBinario<T>* nuevo = new NodoBinario<T>(val);
-            if(nuevo != NULL){
-                if(val < padre->getDato()){
-                    padre->setHijoIzq(nuevo);
-                }else{
-                    padre->setHijoDer(nuevo);
-                }
-                insertado = true;
-            }
-        }
-        return insertado;
+template<class T>
+bool ArbolAVL<T>::insertar(T val) {
+    if (!this->raiz) {
+        this->raiz = new NodoBinario<T>(val);
+        return true;
     }
 
-    //Actualizar altura de este nodo
-    nodo->altura = 1 + max(altura(nodo->getHijoIzq()), altura(nodo->getHijoDer()));
-
-    //  Obtener balance
-    int balance = getBalance(nodo);
-
-    // 4. Si este nodo se desequilibra, hay 4 casos
-
-    // Rotación simple a derecha
-    if (balance > 1 && val < nodo->getHijoIzq()->getDato())
-        return rotacionDerecha(nodo);
-
-    // Rotación simple a izquierda
-    if (balance < -1 && val > nodo->getHijoDer()->getDato())
-        return rotacionIzquierda(nodo);
-
-    // Rotación 1: Izquierda-Derecha
-    if (balance > 1 && val > nodo->getHijoIzq()->getDato()) {
-        nodo->setHijoIzq(rotacionIzquierda(nodo->getHijoIzq()));
-        return rotacionDerecha(nodo);
-    }
-
-    // Rotación 2: Derecha-Izquierda
-    if (balance < -1 && val < nodo->getHijoDer()->getDato()) {
-        nodo->setHijoDer(rotacionDerecha(nodo->getHijoDer()));
-        return rotacionIzquierda(nodo);
-    }
-
-    return nodo;
-}*/
+    this->raiz = insertAVL(this->raiz, val);
+    return true;
+}
 //iterativa
 template<class T>
 bool ArbolAVL<T>::eliminar(T val) {
     NodoBinario<T>* nodo = this->raiz;
     NodoBinario<T>* padre = this->raiz;
 
-    while (nodo != NULL && nodo->obtenerDato() != val) {
+    while (nodo != nullptr && nodo->obtenerDato() != val) {
         padre = nodo;
         if (val < nodo->obtenerDato())
             nodo = nodo->obtenerHijoIzq();
@@ -245,17 +175,17 @@ bool ArbolAVL<T>::eliminar(T val) {
             nodo = nodo->obtenerHijoDer();
     }
 
-    if (nodo == NULL) {
+    if (nodo == nullptr) {
         return false;
     }
 
     //3. Nodo con dos hijos, usar elmaximo del subarbol izquierdo
     //   para reemplazazr nodo
-    if (nodo->obtenerHijoIzq() != NULL && nodo->obtenerHijoDer() != NULL) {
+    if (nodo->obtenerHijoIzq() != nullptr && nodo->obtenerHijoDer() != nullptr) {
         NodoBinario<T>* sucesor = nodo->obtenerHijoDer();
         NodoBinario<T>* sucesorPadre = nodo;
 
-        while (sucesor->obtenerHijoIzq() != NULL) {
+        while (sucesor->obtenerHijoIzq() != nullptr) {
             sucesorPadre = sucesor;
             sucesor = sucesor->obtenerHijoIzq();
         }
@@ -268,20 +198,20 @@ bool ArbolAVL<T>::eliminar(T val) {
 
    //2. Nodo con un solo hijo, usar hijo para reemplazar nodo
     NodoBinario<T>* hijo;
-    if (nodo->obtenerHijoIzq() != NULL) {
+    if (nodo->obtenerHijoIzq() != nullptr) {
         hijo = nodo->obtenerHijoIzq();
     } else {
         hijo = nodo->obtenerHijoDer();
     }
 
     // 1. Nodo hoja, borrarlo
-    if (padre == NULL) {
+    if (padre == nullptr) {
         this->raiz = hijo;
     } else {
         if (nodo == padre->obtenerHijoIzq())
-            padre->fijarHijoIzq(hijo);
+            padre->fijarLeft(hijo);
         else
-            padre->fijarHijoDer(hijo);
+            padre->fijarRight(hijo);
     }
 
     delete nodo;
@@ -294,7 +224,7 @@ bool ArbolAVL<T>::buscar(T val){
     NodoBinario<T>* nodo = this->raiz;
     bool encontrado = false;
 
-    while (nodo!=NULL && !encontrado){
+    while (nodo!=nullptr && !encontrado){
         if(val < nodo->obtenerDato()){
             nodo = nodo->obtenerHijoIzq();
         } else if(val > nodo->obtenerDato()){
@@ -309,7 +239,7 @@ bool ArbolAVL<T>::buscar(T val){
 //recurrente
 template< class T >
 void ArbolAVL<T>::preOrden(NodoBinario<T>* nodo){
-    if(nodo!=NULL){
+    if(nodo!=nullptr){
         std::cout << nodo->obtenerDato()<<" ";
         this->preOrden(nodo->obtenerHijoIzq());
         this->preOrden(nodo->obtenerHijoDer());
@@ -325,7 +255,7 @@ void ArbolAVL<T>::inOrden(){
 
 template< class T >
 void ArbolAVL<T>::inOrden(NodoBinario<T>* nodo){
-    if(nodo!=NULL){
+    if(nodo!=nullptr){
         this->inOrden(nodo->obtenerHijoIzq());
         std::cout << nodo->obtenerDato()<<" ";
         this->inOrden(nodo->obtenerHijoDer());
@@ -334,7 +264,7 @@ void ArbolAVL<T>::inOrden(NodoBinario<T>* nodo){
 //Recurrente
 template< class T >
 void ArbolAVL<T>::posOrden(NodoBinario<T>* nodo){
-    if(nodo!=NULL){
+    if(nodo!=nullptr){
         this->posOrden(nodo->obtenerHijoIzq());
         this->posOrden(nodo->obtenerHijoDer());
         std::cout << nodo->obtenerDato()<<" ";
@@ -352,10 +282,10 @@ void ArbolAVL<T>::nivelOrden(){
             nodo = cola.front();
             cola.pop();
             std::cout<< nodo->obtenerDato() << " ";
-            if(nodo->obtenerHijoIzq() != NULL){
+            if(nodo->obtenerHijoIzq != nullptr){
                 cola.push(nodo->obtenerHijoIzq());
             }
-            if(nodo->obtenerHijoDer != NULL){
+            if(nodo->obtenerHijoDer != nullptr){
                 cola.push(nodo->obtenerHijoDer());
             }
         }

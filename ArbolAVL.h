@@ -16,8 +16,7 @@ public:
     int tamano();
     int tamano(NodoBinario<T>* nodo);
     int getBalance(NodoBinario<T>* nodo);
-    NodoBinario<T>* rotacionDerecha(NodoBinario<T>* nodo);
-    NodoBinario<T>* rotacionIzquierda(NodoBinario<T>* nodo);
+    NodoBinario<T>* rotaciones(NodoBinario<T>* nodo);
     NodoBinario<T>* insertAVL(NodoBinario<T>* nodo, T val);
     NodoBinario<T>* insertar(T val);
     bool eliminar(T val);
