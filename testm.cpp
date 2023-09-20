@@ -31,20 +31,22 @@ int main( int argc, char* argv[] ) {
 
     cout<<"valor: "<<arbolB.insertar(6)<< std::endl;
     cout<<"valor: "<<arbolB.insertar(2)<< std::endl;
-    cout<<"valor: "<<arbolB.insertar(15)<< std::endl;
+    cout<<"valor: "<<arbolB.insertar(20)<< std::endl;
     cout<<"valor: "<<arbolB.insertar(1)<< std::endl;
     cout<<"valor: "<<arbolB.insertar(3)<< std::endl;
-    cout<<"valor: "<<arbolB.insertar(13)<< std::endl;
+    cout<<"valor: "<<arbolB.insertar(16)<< std::endl;
     cout<<"valor: "<<arbolB.insertar(30)<< std::endl;
     cout<<"valor: "<<arbolB.insertar(11)<< std::endl;
-    cout<<"valor: "<<arbolB.insertar(14)<< std::endl;
+    cout<<"valor: "<<arbolB.insertar(15)<< std::endl;
     cout<<"valor: "<<arbolB.insertar(0)<< std::endl;
     cout<<"valor: "<<arbolB.insertar(35)<< std::endl;
+    cout<<"valor: "<<arbolB.insertar(14)<< std::endl;
+    cout<<"valor: "<<arbolB.insertar(17)<< std::endl;
 
     arbolB.inOrden();
 
     cout<<"ELIMINACION"<< std::endl;
-    cout<<"se elimino: "<<arbolB.eliminar(35)<< std::endl;
+    cout<<"se elimino: "<<arbolB.eliminar(16)<< std::endl;
     arbolB.inOrden();
 
     /*
